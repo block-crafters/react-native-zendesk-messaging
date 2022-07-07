@@ -27,9 +27,19 @@ class ZendeskMessaging: NSObject {
       guard let zendeskController = Zendesk.instance?.messaging?.messagingViewController() else {
         return }
       let viewController = RCTPresentedViewController();
-      viewController?.present(zendeskController, animated: true) {
+      let navigationController = UINavigationController(rootViewController: zendeskController);
+        zendeskController.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.closeMessaging))
+      viewController?.present(navigationController, animated: true) {
         print("Messaging have shown")
       }
+    }
+  }
+
+  @objc
+  func closeMessaging() {
+    DispatchQueue.main.async {
+      let viewController = RCTPresentedViewController();
+      viewController?.dismiss(animated: true);
     }
   }
 
